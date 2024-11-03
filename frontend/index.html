@@ -3,42 +3,114 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Симулятор Роскомнадзора</title>
+    <title>Симулятор РКН</title>
+    <style>
+        :root {
+            --background-color: #121212;
+            --border-color: #121212;
+        }
+
+        body {
+            background-color: var(--background-color);
+            color: #ffffff;
+        }
+
+        .main {
+            width: 100%;
+            height: 100%;
+            border-collapse: collapse;
+            border: 2px solid var(--border-color);
+        }
+
+        .main td {
+            border: 2px solid var(--border-color);
+            /* width: 50%;
+            height: 100px; */
+        }
+
+        .header {
+            vertical-align: top;
+            font-size: 30px;
+            font-family: Arial, sans-serif;
+            text-align: left;
+            padding: 10px;
+        }
+
+        .header p {
+            margin: 0;
+        }
+
+        #time {
+            text-align: center;
+            font-size: 150px;
+            font-family: Arial, sans-serif;
+        }
+
+        #scally {
+            text-align: center;
+            width: 30%;
+        }
+
+        #scally img {
+            width: 100%;
+            height: auto;
+        }
+
+        #ref {
+            text-align: center;
+            padding: 10px;
+            font-size: 30px;
+        }
+
+        .button-link {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 30px;
+            color: white;
+            background-color: rgb(150, 40, 240);
+            text-align: center;
+            text-decoration: none;
+            border-radius: 10px;
+        }
+
+        .button-link:hover {
+            background-color: rgb(57, 5, 100);
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+    <script src="scripts/config.js" defer></script>
+    <script src="scripts/start_page/clock.js" defer></script>
 </head>
 
 <body>
-    <h1 id="message">Loading...</h1>
-    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
-    <script>
-        async function init() {
-            if (window.ethereum) {
-                await ethereum.request({ method: 'eth_requestAccounts' });
-                const web3 = new Web3(window.ethereum);
-                const networkId = await web3.eth.net.getId();
+    <table class="main">
+        <tr>
+            <td class="header">
+                <p>ФИО: Зыков Иван Евгеньевич</p>
+                <p>Группа: Р3215</p>
+                <p>Вариант: 408674</p>
+            </td>
+            <td rowspan="4" id="scally">
+                <img src="images/scally.jpg" alt="здесь мог быть шаман" height="300%">
+            </td>
+        </tr>
+        <tr>
+            <td id="time">
+                <p><span id="clock"></span></p>
+            </td>
+        </tr>
+        <tr>
+            <td id="ref">
+                <p><a href="https://example.com" class="button-link">Симулятор РКН*</a></p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <p>*Ракета космического назначения</p>
+            </td>
+        </tr>
+    </table>
 
-                // Абстракция контракта
-                const HelloWorldContract = new web3.eth.Contract([
-                    {
-                        "constant": true,
-                        "inputs": [],
-                        "name": "sayHello",
-                        "outputs": [{ "name": "", "type": "string" }],
-                        "payable": false,
-                        "stateMutability": "pure",
-                        "type": "function"
-                    }
-                ], "0xb4AB147713F02a61393e2f0B1a8b4d947d9b15FB");
-
-                // Вызов функции sayHello
-                const message = await HelloWorldContract.methods.sayHello().call();
-                document.getElementById("message").innerText = message;
-            } else {
-                document.getElementById("message").innerText = "Metamask not found!";
-            }
-        }
-
-        window.addEventListener('load', init);
-    </script>
 </body>
 
 </html>

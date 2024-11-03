@@ -1,0 +1,1 @@
+const updateClockTimeout = 1000;
