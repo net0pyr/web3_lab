@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Симулятор РКН</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <style>
+        :root {
+            --border-color: #ff0000;
+            --result-border-color: #ffffff;
+        }
+
+        .main {
+            width: 100%;
+            height: auto;
+            border-collapse: collapse;
+            border: 2px solid var(--border-color);
+        }
+
+        .main td {
+            border: 2px solid var(--border-color);
+            /* width: 50%;
+            height: 100px; */
+        }
+
+        #results {
+            width: 100%;
+            height: 100%;
+            border-collapse: collapse;
+            border: 2px solid var(--result-border-color);
+        }
+
+        #results th {
+            border: 2px solid var(--result-border-color);
+        }
+
+        #results td {
+            border: 2px solid var(--result-border-color);
+        }
+
+        #jxgbox {
+            width: 500px;
+            height: 500px;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+    <script type="text/javascript" charset="UTF-8"
+        src="https://cdn.jsdelivr.net/npm/jsxgraph/distrib/jsxgraphcore.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/jsxgraph/distrib/jsxgraph.css" />
+    <script src="scripts/config.js" defer></script>
+    <script src="scripts/shot_page/area.js" defer></script>
+</head>
+
+<body>
+    <table class="main">
+        <tr>
+            <td colspan="3" class="siteName">
+                <p>Симулятор РКН*</p>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3">
+                <p>Штраф компании Гугл**: <span id="fine"></span></p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <form id="hitForm">
+                    <label for="r">R(от 0 до 5):</label>
+                    <input type="number" id="r" name="r" step="0.1"><br><br>
+                    <label for="x">X(от -5 до 5):</label>
+                    <input type="number" id="x" name="x" step="0.1"><br><br>
+                    <label for="y">Y(от -5 до 5):</label>
+                    <input type="number" id="y" name="y" step="0.1"><br><br>
+                    <button type="submit" id="submit-btn">Оштрафовать</button>
+                    <button type="button" id="updateRButton">Обновить значение R</button>
+                </form>
+            </td>
+            <td>
+                <div id="jxgbox"></div>
+            </td>
+            <td>
+                <table id="results">
+                    <colgroup>
+                        <col style="width: 100px">
+                        <col style="width: 100px">
+                        <col style="width: 100px">
+                        <col style="width: 200px">
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>X</th>
+                            <th>Y</th>
+                            <th>R</th>
+                            <th>Штраф</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3" class="siteName">
+                <p>*Ракета космического назначения</p>
+                <p>**Подвальная китайская корпорация</p>
+            </td>
+        </tr>
+    </table>
+
+</body>
+
+</html>
