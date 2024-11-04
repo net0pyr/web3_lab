@@ -1,5 +1,5 @@
-const HelloWorld = artifacts.require("HelloWorld");
+const checkShotContract = artifacts.require("checkShotContract");
 
 module.exports = function (deployer) {
-    deployer.deploy(HelloWorld);
+    deployer.deploy(checkShotContract);
 };

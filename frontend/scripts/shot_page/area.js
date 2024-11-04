@@ -1,3 +1,7 @@
+import { fromEvent, from, tap } from 'https://cdn.jsdelivr.net/npm/rxjs@7.8.1/+esm';
+import { map, filter, switchMap, catchError } from 'https://cdn.jsdelivr.net/npm/rxjs@7.8.1/operators/+esm';
+import { checkResult } from './checkResult.js';
+
 function createArea() {
     board = JXG.JSXGraph.initBoard('jxgbox', {
         boundingbox: [-1.2 * valueR, 1.2 * valueR, 1.2 * valueR, -1.2 * valueR],
@@ -124,6 +128,10 @@ function createArea() {
         layer: 10
     });
 
+    points.forEach(point => {
+        board.create('point', [point.x, point.y], { name: '', color: point.color, size: 2, layer: 10 });
+    });
+
     function showLabels() {
         board.defaultAxes.x.setAttribute({
             ticks: {
@@ -154,17 +162,6 @@ function createArea() {
         board.update();
     }
 
-    board.on('down', function (e) {
-        if (!isRChanged) {
-            alert('Выберите радиус, чтобы создать свой первый штраф');
-            return;
-        }
-        const coords = board.getCoordsTopLeftCorner(e);
-        const x = board.getUsrCoordsOfMouse(e)[0].toFixed(2);
-        const y = board.getUsrCoordsOfMouse(e)[1].toFixed(2);
-        console.log(`Координаты точки нажатия: x = ${x}, y = ${y}`);
-    });
-
     if (isRChanged) {
         showLabels();
     } else {
@@ -172,11 +169,8 @@ function createArea() {
     }
 }
 
-function redrawGraph(valueR) {
-    // Удаляем старый график
+export function redrawGraph(valueR) {
     JXG.JSXGraph.freeBoard(board);
-
-    // Создаем новый график
     createArea(valueR);
 }
 
@@ -205,4 +199,62 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById('r').value = '';
 
     });
+
+    const boardDown$ = fromEvent(board.containerObj, 'mousedown').pipe(
+        map(event => {
+            if (!isRChanged) {
+                throw new Error('Радиус не выбран');
+            }
+            const coords = board.getCoordsTopLeftCorner(event);
+            const x = parseFloat(board.getUsrCoordsOfMouse(event)[0].toFixed(2));
+            const y = parseFloat(board.getUsrCoordsOfMouse(event)[1].toFixed(2));
+            console.log(`Координаты точки нажатия: x = ${x}, y = ${y}`);
+            return { x, y, r: valueR };
+        }),
+        filter(data => {
+            const minInt256 = -(2 ** 255);
+            const maxInt256 = (2 ** 255) - 1;
+            const x = Math.floor(data.x * (10 ** 6));
+            const y = Math.floor(data.y * (10 ** 6));
+            const r = Math.floor(data.r * (10 ** 6));
+
+            if (data.x < -5 ||
+                data.x > 5 ||
+                isNaN(data.x) ||
+                data.y < -5 ||
+                data.y > 5 ||
+                isNaN(data.y) ||
+                data.r <= 0 ||
+                data.r > 5 ||
+                isNaN(data.r)) {
+                alert('Неверный формат данных');
+                return false;
+            }
+            return true;
+        }),
+        switchMap(data => {
+            const x = Math.floor(data.x * (10 ** 6));
+            const y = Math.floor(data.y * (10 ** 6));
+            const r = Math.floor(data.r * (10 ** 6));
+
+            valueX = data.x;
+            valueY = data.y;
+
+            return from(contract.methods.checkShot(x, y, r).call({ gas: 6000000 }));
+        }),
+        catchError(error => {
+            console.error('Ошибка:', error);
+            if (error.message === 'Радиус не выбран') {
+                alert('Выберите радиус, чтобы создать свой первый штраф');
+            } else {
+                alert('Ошибка при проверке выстрела. Попробуйте еще раз.');
+            }
+            throw error;
+        })
+    );
+
+    boardDown$.subscribe(result => {
+        checkResult(result);
+    });
+
 });
