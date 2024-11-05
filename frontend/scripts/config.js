@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                 "type": "function",
                 "constant": true
             }
-        ], "0xcdfF78D487e6B39e651F75825104C5a36fFe0CeC");
+        ], "0x78c429A0213C9077F3040C15E7E7826259275dDc");
     } else {
         alert("Metamask not found!");
         return;
