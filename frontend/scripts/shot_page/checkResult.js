@@ -3,11 +3,6 @@ import { redrawGraph } from './area.js';
 export function checkResult(result) {
     console.log('Результат проверки выстрела:', result);
     isRChanged = true;
-    if (result) {
-        points.push({ x: valueX, y: valueY, color: 'pink' });
-    } else {
-        points.push({ x: valueX, y: valueY, color: '#ffffff' });
-    }
 
     redrawGraph(valueR);
 
@@ -33,4 +28,17 @@ export function checkResult(result) {
     valueFine += result ? fine : 0;
 
     document.getElementById('fine').textContent = valueFine;
+
+    if (result) {
+        points.push({ r: valueR, x: valueX, y: valueY, color: 'pink', fine: fine });
+        addPoints(db, userAddress, [{ r: valueR, x: valueX, y: valueY, color: 'pink', fine: fine }]);
+
+    } else {
+        points.push({ x: valueX, y: valueY, color: '#ffffff', fine: fine });
+        addPoints(db, userAddress, [{ x: valueX, y: valueY, color: '#ffffff', fine: fine }]);
+
+    }
+
+    redrawGraph(valueR);
+
 }

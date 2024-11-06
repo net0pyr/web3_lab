@@ -10,121 +10,113 @@ function createArea() {
         showNavigation: false,
     });
 
-    // Настройка оси X: подпись сверху, деления без числовых меток
     board.defaultAxes.x.setAttribute({
         withLabel: true,
         label: {
-            offset: [0, 15], // Сдвиг подписи оси X вверх
-            strokeColor: '#FFFFFF', // Цвет подписи оси
+            offset: [0, 15], 
+            strokeColor: '#FFFFFF', 
             fontSize: 16,
-            position: 'rt' // Позиция "справа вверху" для подписи
+            position: 'rt' 
         },
         ticks: {
             visible: true,
-            strokeColor: '#FFFFFF', // Цвет линий делений
-            label: { visible: false } // Скрывает числовые метки делений
+            strokeColor: '#FFFFFF', 
+            label: { visible: false } 
         }
     });
 
-    // Настройка оси Y: подпись справа, деления без числовых меток
     board.defaultAxes.y.setAttribute({
         withLabel: true,
         label: {
-            offset: [15, 0], // Сдвиг подписи оси Y вправо
+            offset: [15, 0], 
             strokeColor: '#FFFFFF',
             fontSize: 16,
-            position: 'rt' // Позиция "справа вверху" для подписи
+            position: 'rt' 
         },
         ticks: {
             visible: true,
             strokeColor: '#FFFFFF',
-            label: { visible: false } // Скрывает числовые метки делений
+            label: { visible: false } 
         }
     });
 
-    // Создаем прямоугольник как полигон
     const rectangle = board.create('polygon', [
-        [0 * valueR, 0 * valueR],       // Первая точка (нижний левый угол)
-        [0.5 * valueR, 0 * valueR],       // Вторая точка (нижний правый угол)
-        [0.5 * valueR, 1 * valueR],       // Третья точка (верхний правый угол)
-        [0 * valueR, 1 * valueR]        // Четвертая точка (верхний левый угол)
+        [0 * valueR, 0 * valueR],  
+        [0.5 * valueR, 0 * valueR],
+        [0.5 * valueR, 1 * valueR],  
+        [0 * valueR, 1 * valueR]  
     ], {
-        fillColor: '#00f',      // Цвет заливки
-        fillOpacity: 0.5,       // Прозрачность заливки
-        borders: { visible: false },  // Скрыть границы (если нужно)
-        vertices: { visible: false },     // Скрыть границы
-        highlight: false               // Отключить изменение цвета при наведении
+        fillColor: '#00f',  
+        fillOpacity: 0.5,  
+        borders: { visible: false }, 
+        vertices: { visible: false }, 
+        highlight: false       
     });
 
-    // Создаем прямоугольник как полигон
     const triangle = board.create('polygon', [
-        [0 * valueR, 0 * valueR],       // Первая точка (нижний левый угол)
-        [0 * valueR, 1 * valueR],       // Вторая точка (нижний правый угол)
-        [-1 * valueR, 0 * valueR],       // Третья точка (верхний правый угол)
+        [0 * valueR, 0 * valueR], 
+        [0 * valueR, 1 * valueR],  
+        [-1 * valueR, 0 * valueR], 
     ], {
-        fillColor: '#00f',      // Цвет заливки
-        fillOpacity: 0.5,       // Прозрачность заливки
-        borders: { visible: false },  // Скрыть границы (если нужно)
-        vertices: { visible: false },     // Скрыть границы
-        highlight: false               // Отключить изменение цвета при наведении
+        fillColor: '#00f',
+        fillOpacity: 0.5,
+        borders: { visible: false }, 
+        vertices: { visible: false }, 
+        highlight: false    
     });
 
-    // Центр круга, скрытый и неизменяемый
     const center = board.create('point', [0 * valueR, 0 * valueR], { visible: false, fixed: true });
 
-    // Радиусная точка, скрытая и неизменяемая
     const radiusPoint = board.create('point', [0 * valueR, -1 * valueR], { visible: false, fixed: true });
 
-    // Точка на границе сектора, скрытая и неизменяемая (определяет сектор между radiusPoint и этой точкой)
     const edgePoint = board.create('point', [1 * valueR, 0 * valueR], { visible: false, fixed: true });
 
-    // Создаем сектор круга
     const sector = board.create('sector', [center, radiusPoint, edgePoint], {
-        fillColor: '#00f',       // Цвет заливки
-        fillOpacity: 0.5,           // Прозрачность заливки
-        strokeOpacity: 0,            // Убираем границу, делая ее полностью прозрачной
-        fixed: true,                 // Сектор не может быть изменен пользователем
-        highlight: false               // Отключить изменение цвета при наведении
+        fillColor: '#00f',
+        fillOpacity: 0.5, 
+        strokeOpacity: 0,  
+        fixed: true,        
+        highlight: false         
     });
 
     const google_icon1 = board.create('image', [
-        'images/google_icon.png',  // Относительный путь к изображению
-        [0.1 * valueR, -0.75 * valueR],       // Координаты нижнего левого угла изображения
-        [0.65 * valueR, 0.65 * valueR]        // Размеры изображения (ширина, высота)
+        'images/google_icon.png', 
+        [0.1 * valueR, -0.75 * valueR],   
+        [0.65 * valueR, 0.65 * valueR]   
     ], {
-        fixed: true,    // Неизменяемое изображение
-        highlight: false,               // Отключить изменение цвета при наведении
+        fixed: true,  
+        highlight: false,     
         layer: 10
     });
 
 
     const google_icon2 = board.create('image', [
-        'images/google_icon.png',  // Относительный путь к изображению
-        [0 * valueR, 0.4 * valueR],       // Координаты нижнего левого угла изображения
-        [0.45 * valueR, 0.45 * valueR]        // Размеры изображения (ширина, высота)
+        'images/google_icon.png', 
+        [0 * valueR, 0.4 * valueR],   
+        [0.45 * valueR, 0.45 * valueR]  
     ], {
-        fixed: true,    // Неизменяемое изображение
-        highlight: false,               // Отключить изменение цвета при наведении
+        fixed: true, 
+        highlight: false,  
         layer: 10
     });
 
     const google_icon3 = board.create('image', [
-        'images/google_icon.png',  // Относительный путь к изображению
-        [-0.33 * valueR, 0.36 * valueR],       // Координаты нижнего левого угла изображения
-        [0.3 * valueR, 0.3 * valueR]        // Размеры изображения (ширина, высота)
+        'images/google_icon.png', 
+        [-0.33 * valueR, 0.36 * valueR],    
+        [0.3 * valueR, 0.3 * valueR]      
     ], {
-        fixed: true,    // Неизменяемое изображение
-        highlight: false,               // Отключить изменение цвета при наведении
+        fixed: true,  
+        highlight: false,  
         layer: 10
     });
 
     const google_string = board.create('image', [
-        'images/google_string.png',  // Относительный путь к изображению
-        [-0.66 * valueR, 0 * valueR],       // Координаты нижнего левого угла изображения
-        [1.1 * valueR, 0.36 * valueR]        // Размеры изображения (ширина, высота)
+        'images/google_string.png',
+        [-0.66 * valueR, 0 * valueR],  
+        [1.1 * valueR, 0.36 * valueR]       
     ], {
-        fixed: true,    // Неизменяемое изображение
-        highlight: false,               // Отключить изменение цвета при наведении
+        fixed: true,
+        highlight: false,               
         layer: 10
     });
 

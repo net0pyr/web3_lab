@@ -9,10 +9,18 @@ var points = [];
 
 var web3;
 var contract;
+var userAddress; 
+
+var db;
+
 document.addEventListener("DOMContentLoaded", async function () {
     if (window.ethereum) {
         await ethereum.request({ method: 'eth_requestAccounts' });
         web3 = new Web3(window.ethereum);
+
+        const accounts = await web3.eth.getAccounts();
+        userAddress = accounts[0];
+        console.log("User Address:", userAddress);
 
         contract = new web3.eth.Contract([
             {
@@ -45,7 +53,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                 "type": "function",
                 "constant": true
             }
-        ], "0x78c429A0213C9077F3040C15E7E7826259275dDc");
+        ], "0x615d371c1a4f10372d89BB21C6d6A495F5Ae90C7");
     } else {
         alert("Metamask not found!");
         return;
